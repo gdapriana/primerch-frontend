@@ -1,4 +1,3 @@
-import React from "react";
 import { ProductQueryWithRelation } from "@/helpers/type/product.type";
 import {
   productTableHeader,
@@ -117,7 +116,7 @@ const ProductTable = ({
             </td>
             <td className="text-center">
               <Button size="icon-sm" className="mr-1" asChild>
-                <Link href={`/admin/products/${product.slug}`}>
+                <Link href={`/admin/products/update/${product.id}`}>
                   <PenBox className="w-2 h-2" />
                 </Link>
               </Button>

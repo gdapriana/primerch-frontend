@@ -2,15 +2,14 @@ import { Dispatch, SetStateAction } from "react";
 import { CategoryQueryWithRelation } from "@/helpers/type/category.type";
 import { Button } from "@/components/ui/button";
 import { Folder } from "lucide-react";
-import { ProductQueryParams } from "@/helpers/request/products.request.query";
 
 const CategoryOptions = ({
-  query,
+  category,
   categories,
 }: {
-  query: {
-    value: ProductQueryParams;
-    setValue: Dispatch<SetStateAction<ProductQueryParams>>;
+  category: {
+    value: string | undefined;
+    setValue: Dispatch<SetStateAction<string | undefined>>;
   };
   categories: CategoryQueryWithRelation[];
 }) => {
@@ -20,24 +19,16 @@ const CategoryOptions = ({
         categories.map((categoryItem: CategoryQueryWithRelation) => (
           <Button
             className="flex-1 text-xs cursor-pointer"
+            onClick={() =>
+              category.setValue(
+                categoryItem.slug === category.value
+                  ? undefined
+                  : categoryItem.slug,
+              )
+            }
             size="sm"
-            onClick={() => {
-              if (query.value.category === categoryItem.slug) {
-                query.setValue((prev) => ({
-                  ...prev,
-                  category: undefined,
-                  cursor: undefined,
-                }));
-                return;
-              }
-              query.setValue((prev) => ({
-                ...prev,
-                category: categoryItem.slug,
-                cursor: undefined,
-              }));
-            }}
             variant={
-              categoryItem.slug === query.value.category ? "default" : "outline"
+              categoryItem.slug === category.value ? "default" : "outline"
             }
             key={categoryItem.id}
           >

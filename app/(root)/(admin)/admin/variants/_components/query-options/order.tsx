@@ -11,13 +11,14 @@ import {
 } from "@/components/ui/select";
 import { orderBy, OrderBy } from "@/helpers/type/random.type";
 import { ProductQueryParams } from "@/helpers/request/products.request.query";
+import { VariantQueryParams } from "@/helpers/request/variants.request.query";
 
 const OrderOptions = ({
   query,
 }: {
   query: {
-    value: ProductQueryParams;
-    setValue: Dispatch<SetStateAction<ProductQueryParams>>;
+    value: VariantQueryParams;
+    setValue: Dispatch<SetStateAction<VariantQueryParams>>;
   };
 }) => {
   return (
@@ -31,7 +32,7 @@ const OrderOptions = ({
         }))
       }
     >
-      <SelectTrigger className="md:w-auto w-full md:max-w-[200px]">
+      <SelectTrigger className="flex-1">
         <SelectValue placeholder="Sort By" />
       </SelectTrigger>
       <SelectContent>

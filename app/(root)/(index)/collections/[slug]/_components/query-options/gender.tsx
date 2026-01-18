@@ -10,16 +10,29 @@ import {
 } from "@/components/ui/select";
 import { GENDER } from "@/helpers/generated/prisma/enums";
 import { Dispatch, SetStateAction } from "react";
+import { ProductQueryParams } from "@/helpers/request/products.request.query";
 
 const GenderOptions = ({
-  gender,
+  query,
 }: {
-  gender: { value: GENDER; setValue: Dispatch<SetStateAction<GENDER>> };
+  query: {
+    value: ProductQueryParams;
+    setValue: Dispatch<SetStateAction<ProductQueryParams>>;
+  };
 }) => {
   return (
     <Select
-      value={gender.value}
-      onValueChange={(value: GENDER) => gender.setValue(value)}
+      defaultValue={"ALL"}
+      onValueChange={(value) =>
+        query.setValue((prev) => ({
+          ...prev,
+          ...(value &&
+            value !== "ALL" && {
+              gender: value as GENDER,
+            }),
+          cursor: undefined,
+        }))
+      }
     >
       <SelectTrigger className="md:w-auto w-full md:max-w-[200px]">
         <SelectValue placeholder="Gender" />
@@ -34,6 +47,9 @@ const GenderOptions = ({
               </SelectItem>
             );
           })}
+          <SelectItem className="lowercase" value={"ALL"}>
+            ALL
+          </SelectItem>
         </SelectGroup>
       </SelectContent>
     </Select>

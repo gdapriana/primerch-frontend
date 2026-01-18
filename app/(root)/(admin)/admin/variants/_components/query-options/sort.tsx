@@ -1,4 +1,3 @@
-import { productSortBy, ProductSortBy } from "@/helpers/type/product.type";
 import { Dispatch, SetStateAction } from "react";
 import {
   Select,
@@ -9,36 +8,37 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { orderBy, OrderBy } from "@/helpers/type/random.type";
-import { ProductQueryParams } from "@/helpers/request/products.request.query";
+import { productSortBy, ProductSortBy } from "@/helpers/type/product.type";
+import { VariantQueryParams } from "@/helpers/request/variants.request.query";
+import { variantSortBy, VariantSortBy } from "@/helpers/type/variant.type";
 
-const OrderOptions = ({
+const SortOptions = ({
   query,
 }: {
   query: {
-    value: ProductQueryParams;
-    setValue: Dispatch<SetStateAction<ProductQueryParams>>;
+    value: VariantQueryParams;
+    setValue: Dispatch<SetStateAction<VariantQueryParams>>;
   };
 }) => {
   return (
     <Select
-      defaultValue={query.value.order}
-      onValueChange={(value: OrderBy) =>
+      defaultValue={query.value.sort}
+      onValueChange={(value: VariantSortBy) =>
         query.setValue((prev) => ({
           ...prev,
-          order: value,
+          sort: value,
           cursor: undefined,
         }))
       }
     >
-      <SelectTrigger className="md:w-auto w-full md:max-w-[200px]">
+      <SelectTrigger className="flex-1">
         <SelectValue placeholder="Sort By" />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
           <SelectLabel>Sort By</SelectLabel>
-          {orderBy.map(
-            (item: { name: string; value: OrderBy }, index: number) => (
+          {variantSortBy.map(
+            (item: { name: string; value: VariantSortBy }, index: number) => (
               <SelectItem key={index} value={item.value}>
                 {item.name}
               </SelectItem>
@@ -50,4 +50,4 @@ const OrderOptions = ({
   );
 };
 
-export default OrderOptions;
+export default SortOptions;

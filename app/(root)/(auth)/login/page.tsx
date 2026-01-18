@@ -5,8 +5,8 @@ import { LoginForm } from "@/components/login-form";
 import { FormEvent, useEffect, useState } from "react";
 import { UserLoginRequest } from "@/helpers/type/user.type";
 import { useAuth } from "@/helpers/context/auth/auth.hook";
-import { useRouter } from "next/navigation";
-import Loading from "@/components/loading";
+import { Response } from "@/helpers/type/response.type";
+import { toast } from "sonner";
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -17,7 +17,16 @@ export default function LoginPage() {
   });
   const onFormSubmited = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await login(loginForm);
+    toast.promise(
+      (async () => {
+        const response: Response = await login(loginForm);
+        if (response.status !== 200) {
+          throw new Error("Wrong username or password");
+        }
+        return response;
+      })(),
+      { error: (e) => e.message },
+    );
   };
 
   return (

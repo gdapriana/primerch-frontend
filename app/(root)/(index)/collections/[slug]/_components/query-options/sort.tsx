@@ -9,20 +9,25 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { productSortBy, ProductSortBy } from "@/helpers/type/product.type";
+import { ProductQueryParams } from "@/helpers/request/products.request.query";
 
 const SortOptions = ({
-  sort,
+  query,
 }: {
-  sort: {
-    value: ProductSortBy | undefined;
-    setValue: Dispatch<SetStateAction<ProductSortBy | undefined>>;
+  query: {
+    value: ProductQueryParams;
+    setValue: Dispatch<SetStateAction<ProductQueryParams>>;
   };
 }) => {
   return (
     <Select
-      value={sort.value}
+      defaultValue={query.value.sort}
       onValueChange={(value: ProductSortBy) =>
-        sort.setValue(value === "default" ? undefined : value)
+        query.setValue((prev) => ({
+          ...prev,
+          sort: value,
+          cursor: undefined,
+        }))
       }
     >
       <SelectTrigger className="md:w-auto w-full md:max-w-[200px]">

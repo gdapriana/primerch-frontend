@@ -2,22 +2,17 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
+import { ProductQueryParams } from "@/helpers/request/products.request.query";
 
 const PriceOptions = ({
-  price,
+  query,
 }: {
-  price: {
-    value: [number, number];
-    setValue: Dispatch<SetStateAction<[number, number]>>;
+  query: {
+    value: ProductQueryParams;
+    setValue: Dispatch<SetStateAction<ProductQueryParams>>;
   };
 }) => {
   const [isValueChanged, setIsValueChanged] = useState<boolean>(false);
-  useEffect(() => {
-    setIsValueChanged(true);
-    setTimeout(() => {
-      setIsValueChanged(false);
-    }, 2000);
-  }, [price]);
 
   return (
     <div className="flex relative flex-col gap-2 min-w-[180px] px-3">
@@ -27,14 +22,24 @@ const PriceOptions = ({
           isValueChanged && "visible transition opacity-100",
         )}
       >
-        ${price.value[0]} - ${price.value[1]}
+        ${query.value.minPrice} - ${query.value.maxPrice}
       </div>
       <Slider
-        value={price.value}
-        onValueChange={(value) => price.setValue(value as [number, number])}
+        value={[query.value.minPrice || 0, query.value.maxPrice || 500]}
+        onValueChange={(value) => {
+          query.setValue((prev) => ({
+            ...prev,
+            minPrice: value[0],
+            maxPrice: value[1],
+            cursor: undefined,
+          }));
+
+          setIsValueChanged(true);
+          setTimeout(() => setIsValueChanged(false), 2000);
+        }}
         min={0}
-        max={1000}
-        step={100}
+        max={500}
+        step={10}
         className="w-full"
       />
     </div>

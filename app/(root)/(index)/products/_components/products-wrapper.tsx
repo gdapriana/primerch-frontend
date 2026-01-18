@@ -17,6 +17,7 @@ import { CategoryQueryWithRelation } from "@/helpers/type/category.type";
 import CategoryOptions from "@/app/(root)/(index)/products/_components/query-options/category";
 import { ProductQueryParams } from "@/helpers/request/products.request.query";
 import { useProducts } from "@/helpers/context/query/products.query.hook";
+import { Button } from "@/components/ui/button";
 
 const ProductsWrapper = ({
   categories,
@@ -24,7 +25,7 @@ const ProductsWrapper = ({
   categories: CategoryQueryWithRelation[];
 }) => {
   const [query, setQuery] = useState<ProductQueryParams>({
-    take: 10,
+    take: 9,
     sort: "createdAt",
     order: "desc",
     minPrice: 0,
@@ -65,6 +66,25 @@ const ProductsWrapper = ({
           data.result.items.map((product: ProductQueryWithRelation) => (
             <ProductCard key={product.id} product={product} />
           ))}
+        <div className="p-4 col-span-3 flex justify-center items-center">
+          {data && data.result.pagination.hasNext && (
+            <Button
+              size="sm"
+              className="text-xs cursor-pointer"
+              onClick={() =>
+                setQuery((prev) => ({
+                  ...prev,
+                  ...(prev.take && {
+                    take: prev.take + 9,
+                  }),
+                  cursor: undefined,
+                }))
+              }
+            >
+              Load More
+            </Button>
+          )}
+        </div>
       </div>
     </main>
   );

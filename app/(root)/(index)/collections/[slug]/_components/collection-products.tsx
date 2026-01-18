@@ -10,37 +10,36 @@ import NoItem from "@/components/no-item";
 import { ScreenShareOff } from "lucide-react";
 import CollectionQuery from "@/app/(root)/(index)/collections/[slug]/_components/collection-query";
 import { PaginationType } from "@/helpers/type/pagination.type";
+import { ProductQueryParams } from "@/helpers/request/products.request.query";
+import { useProducts } from "@/helpers/context/query/products.query.hook";
 
 const CollectionProducts = ({ categorySlug }: { categorySlug: string }) => {
-  const [products, setProducts] = useState<ProductQueryWithRelation[]>([]);
-  const [productsLoading, setProductsLoading] = useState<boolean>(true);
-  const [pagination, setPagination] = useState<PaginationType>();
-  useEffect(() => {
-    (async () => {
-      const response: Response = await ProductRequest.QUERY(
-        `category=${categorySlug}`,
-        { loadingValue: productsLoading, setLoadingValue: setProductsLoading },
-      );
-      setProducts(response.data.result.items);
-      setPagination(response.data.result.pagination);
-    })();
-  }, []);
+  const [query, setQuery] = useState<ProductQueryParams>({
+    take: 9,
+    sort: "createdAt",
+    order: "desc",
+    minPrice: 0,
+    maxPrice: 500,
+  });
+
+  const { data, isLoading } = useProducts(query);
+
   return (
     <div className="w-full flex flex-col justify-start items-stretch">
-      <CollectionQuery />
-      {productsLoading && (
+      <CollectionQuery query={{ value: query, setValue: setQuery }} />
+      {isLoading && (
         <div className="w-full h-[100px] py-10 flex justify-center items-center">
           <Spinner />
         </div>
       )}
-      {!productsLoading && products && products.length > 0 && (
+      {!isLoading && data && data.result.items.length > 0 && (
         <div className="p-4 gap-1 gap-y-10 md:gap-y-10 overflow-auto grid grid-cols-2 md:grid-cols-4 sm:grid-cols-3 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-          {products.map((product: ProductQueryWithRelation) => (
+          {data.result.items.map((product: ProductQueryWithRelation) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
       )}
-      {!productsLoading && products && products.length === 0 && (
+      {!isLoading && data && data.result.items.length === 0 && (
         <div className="w-full h-[200px] py-10 flex justify-center items-center">
           <NoItem
             title="No Product Found"

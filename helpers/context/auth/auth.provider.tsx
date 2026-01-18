@@ -22,24 +22,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     refreshUser().finally(() => setLoading(false));
   }, []);
 
-  const login = async (payload: UserLoginRequest) => {
+  const login = async (payload: UserLoginRequest): Promise<Response> => {
     setLoading(true);
-    try {
-      const res: Response = await UserRequest.LOGIN(payload);
+    const res: Response = await UserRequest.LOGIN(payload);
+    if (res.success) {
       const accessToken = res.data.result.item.accessToken;
       const userData = res.data.result.item.user;
-
       Cookies.set(ACCESS_TOKEN_STORAGE_KEY, accessToken);
       setUser(userData);
-    } finally {
-      setLoading(false);
     }
+    setLoading(false);
+    return res;
   };
 
   const logout = async () => {
     setLoading(true);
     try {
-      await api.post("/logout");
+      await api.delete("/logout");
     } catch {
     } finally {
       Cookies.remove(ACCESS_TOKEN_STORAGE_KEY);

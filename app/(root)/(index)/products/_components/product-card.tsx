@@ -52,13 +52,13 @@ export default function ProductCard({
           </div>
         )}
       </div>
-      <div className="flex p-2 gap-3 md:flex-row flex-col justify-start md:justify-between items-start">
-        <div className="flex flex-col gap-1 justify-start items-start">
+      <div className="flex h-full p-2 gap-3 md:flex-row flex-col justify-start md:justify-between items-start">
+        <div className="flex flex-col h-full gap-1 justify-start items-start">
           <h3 className="font-semibold text-sm">{product.name}</h3>
-          <p className="text-muted-foreground text-xs">
+          <p className="text-muted-foreground mb-4 text-xs">
             {product.category?.name}
           </p>
-          <div className="flex justify-start gap-1 mt-4 items-center">
+          <div className="flex mt-auto justify-start gap-1 mt-4 items-center">
             <button className="w-6 h-6 text-background bg-primary flex justify-center items-center">
               {product.gender === "UNISEX" && (
                 <VenusAndMars className="w-4 h-4" />

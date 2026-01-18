@@ -53,6 +53,7 @@ export function LoginForm({
             </a>
           </div>
           <Input
+            placeholder="********"
             onChange={(e) =>
               loginForm.setValue({
                 ...loginForm.value,

@@ -37,6 +37,7 @@ export type AdminMenuType = {
 
 export const adminMenu: AdminMenuType[] = [
   { url: "/admin/products", name: "Products" },
+  { url: "/admin/variants", name: "Variants" },
   { url: "/admin/categories", name: "Categories" },
   { url: "/admin/orders", name: "Orders" },
   { url: "/admin/users", name: "users" },

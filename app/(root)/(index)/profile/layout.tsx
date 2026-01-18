@@ -6,6 +6,8 @@ import { profileMenu, ProfileMenuType } from "@/helpers/type/random.type";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ReactNode, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import LogoutAlert from "@/app/(root)/(index)/profile/_components/logout-alert";
 
 export default function Layout({ children }: { children: ReactNode }) {
   const { isAuthenticated, loading } = useAuth();
@@ -35,6 +37,7 @@ export default function Layout({ children }: { children: ReactNode }) {
                 {menu.name}
               </Link>
             ))}
+            <LogoutAlert />
           </div>
         </div>
       </main>
