@@ -36,7 +36,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
             </header>
             <nav className="w-full flex-1 flex flex-col justify-start items-stretch">
               {adminMenu.map((menu: AdminMenuType, index: number) => (
-                <Link
+                <a
                   className={cn(
                     "border-primary/5 p-4 hover:bg-primary/5 font-semibold uppercase text-sm",
                     adminMenu.length !== index + 1 && "border-b",
@@ -47,7 +47,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
                   href={menu.url}
                 >
                   {menu.name}
-                </Link>
+                </a>
               ))}
 
               <Button className="mt-auto" asChild>

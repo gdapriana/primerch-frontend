@@ -17,8 +17,6 @@ export default async function page({
   if (response.status !== 200) return notFound();
   const product: ProductWithRelation = response.data.result.item;
 
-  console.log({ rating: product });
-
   return (
     <main className="w-full flex justify-center items-center p-8">
       <div className="w-full gap-8 max-w-5xl flex flex-col justify-start items-stretch md:flex-row md:justify-center md:items-start">

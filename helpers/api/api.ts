@@ -104,7 +104,6 @@ api.interceptors.response.use(
           );
           Cookies.remove(ACCESS_TOKEN_STORAGE_KEY);
           processQueue(refreshError, null);
-          // window.location.href = "/login";
         } else {
           processQueue(refreshError, null);
         }

@@ -1,6 +1,20 @@
 import { Prisma } from "@/helpers/generated/prisma/client";
 
 export type PaymentMethodType = { name: string; code: string; icon?: string };
+export type OrderSortBy =
+  | "createdAt"
+  | "updatedAt"
+  | "fullName"
+  | "email"
+  | "total";
+
+export const orderSortBy: { name: string; value: OrderSortBy }[] = [
+  { name: "Created At", value: "createdAt" },
+  { name: "Updated At", value: "updatedAt" },
+  { name: "Full Name", value: "fullName" },
+  { name: "Email", value: "email" },
+  { name: "Total", value: "total" },
+];
 
 export const paymentMethods: PaymentMethodType[] = [
   {
@@ -53,11 +67,57 @@ export type CreateOrderRequest = {
   paymentMethod: PaymentMethodType["code"];
 };
 
+export type OrderQueryWithRelation = Prisma.OrderGetPayload<{
+  include: {
+    items: {
+      select: {
+        quantity: true;
+        variant: {
+          select: {
+            product: {
+              select: {
+                cover: {
+                  select: {
+                    url: true;
+                  };
+                };
+                name: true;
+                price: true;
+                slug: true;
+              };
+            };
+            size: { select: { name: true; code: true } };
+            colour: { select: { name: true; code: true } };
+          };
+        };
+      };
+    };
+    user: {
+      select: {
+        email: true;
+        id: true;
+      };
+    };
+  };
+}>;
+
 export type OrderWithRelation = Prisma.OrderGetPayload<{
   include: {
     _count: {
       select: {
         items: true;
+      };
+    };
+    items: {
+      select: {
+        quantity: true;
+        variant: true;
+      };
+    };
+    user: {
+      select: {
+        email: true;
+        id: true;
       };
     };
   };

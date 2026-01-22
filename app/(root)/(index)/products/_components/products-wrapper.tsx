@@ -66,7 +66,7 @@ const ProductsWrapper = ({
           data.result.items.map((product: ProductQueryWithRelation) => (
             <ProductCard key={product.id} product={product} />
           ))}
-        <div className="p-4 col-span-3 flex justify-center items-center">
+        <div className="p-4 md:col-span-3 col-span-2 flex justify-center items-center">
           {data && data.result.pagination.hasNext && (
             <Button
               size="sm"

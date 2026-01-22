@@ -9,7 +9,6 @@ const Page = ({ params }: { params: Promise<{ id: string }> }) => {
   const { data: product, isLoading: isProductLoading } = useProduct(id);
   const { data: gallery, isLoading: isGalleryLoading } = useProductGallery(id);
 
-  console.log({ gallery });
   if (!isProductLoading && !product) return <NotFound />;
   return <div>{id}</div>;
 };

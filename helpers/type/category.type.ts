@@ -1,5 +1,13 @@
 import { Prisma } from "@/helpers/generated/prisma/client";
 
+export type CategorySortBy = "createdAt" | "updatedAt" | "name";
+
+export const categorySortBy: { name: string; value: CategorySortBy }[] = [
+  { name: "Created At", value: "createdAt" },
+  { name: "Updated At", value: "updatedAt" },
+  { name: "Name", value: "name" },
+];
+
 export type CategoryQueryWithRelation = Prisma.CategoryGetPayload<{
   select: {
     _count: {
@@ -14,6 +22,7 @@ export type CategoryQueryWithRelation = Prisma.CategoryGetPayload<{
     };
     name: true;
     slug: true;
+    description: true;
     id: true;
     createdAt: true;
     updatedAt: true;
